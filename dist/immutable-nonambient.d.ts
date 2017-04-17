@@ -66,16 +66,16 @@
  * ```
  *
  * Many methods in Immutable.js accept values which implement the JavaScript
- * [Iterable][] protocol, and might appear like `Iterable<string>` for something
+ * [Collection.Indexed][] protocol, and might appear like `Collection.Indexed<string>` for something
  * which represents sequence of strings. Typically in JavaScript we use plain
- * Arrays (`[]`) when an Iterable is expected, but also all of the Immutable.js
+ * Arrays (`[]`) when an Collection.Indexed is expected, but also all of the Immutable.js
  * collections are iterable themselves!
  *
  * For example, to get a value deep within a structure of data, we might use
- * `getIn` which expects an `Iterable` path:
+ * `getIn` which expects an `Collection.Indexed` path:
  *
  * ```
- * getIn(path: Iterable<string | number>): any
+ * getIn(path: Collection.Indexed<string | number>): any
  * ```
  *
  * To use this method, we could pass an array: `data.getIn([ "key", 2 ])`.
@@ -96,7 +96,7 @@
  * [ES2015]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla
  * [TypeScript]: http://www.typescriptlang.org/
  * [Flow]: https://flowtype.org/
- * [Iterable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+ * [Collection.Indexed]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
  */
 
 
@@ -417,7 +417,7 @@
    */
   export function List(): List<any>;
   export function List<T>(): List<T>;
-  export function List<T>(collection: Iterable<T>): List<T>;
+  export function List<T>(collection: Collection.Indexed<T>): List<T>;
 
   export interface List<T> extends Collection.Indexed<T> {
 
@@ -671,7 +671,7 @@
      *
      * Note: `setIn` can be used in `withMutations`.
      */
-    setIn(keyPath: Iterable<any>, value: any): this;
+    setIn(keyPath: Collection.Indexed<any>, value: any): this;
 
     /**
      * Returns a new List having removed the value at this `keyPath`. If any
@@ -688,30 +688,30 @@
      *
      * @alias removeIn
      */
-    deleteIn(keyPath: Iterable<any>): this;
-    removeIn(keyPath: Iterable<any>): this;
+    deleteIn(keyPath: Collection.Indexed<any>): this;
+    removeIn(keyPath: Collection.Indexed<any>): this;
 
     /**
      * Note: `updateIn` can be used in `withMutations`.
      *
      * @see `Map#updateIn`
      */
-    updateIn(keyPath: Iterable<any>, notSetValue: any, updater: (value: any) => any): this;
-    updateIn(keyPath: Iterable<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
 
     /**
      * Note: `mergeIn` can be used in `withMutations`.
      *
      * @see `Map#mergeIn`
      */
-    mergeIn(keyPath: Iterable<any>, ...collections: Array<any>): this;
+    mergeIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
 
     /**
      * Note: `mergeDeepIn` can be used in `withMutations`.
      *
      * @see `Map#mergeDeepIn`
      */
-    mergeDeepIn(keyPath: Iterable<any>, ...collections: Array<any>): this;
+    mergeDeepIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
 
     // Transient changes
 
@@ -745,7 +745,7 @@
     /**
      * Returns a new List with other values or collections concatenated to this one.
      */
-    concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): List<T | C>;
+    concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): List<T | C>;
 
     /**
      * Returns a new List with values passed through a
@@ -770,7 +770,7 @@
      * Similar to `list.map(...).flatten(true)`.
      */
     flatMap<M>(
-      mapper: (value: T, key: number, iter: this) => Iterable<M>,
+      mapper: (value: T, key: number, iter: this) => Collection.Indexed<M>,
       context?: any
     ): List<M>;
 
@@ -918,8 +918,8 @@
    * but since Immutable Map keys can be of any type the argument to `get()` is
    * not altered.
    */
-  export function Map<K, V>(collection: Iterable<[K, V]>): Map<K, V>;
-  export function Map<T>(collection: Iterable<Iterable<T>>): Map<T, T>;
+  export function Map<K, V>(collection: Collection.Indexed<[K, V]>): Map<K, V>;
+  export function Map<T>(collection: Collection.Indexed<Collection.Indexed<T>>): Map<T, T>;
   export function Map<V>(obj: {[key: string]: V}): Map<string, V>;
   export function Map<K, V>(): Map<K, V>;
   export function Map(): Map<any, any>;
@@ -993,8 +993,8 @@
      *
      * @alias removeAll
      */
-    deleteAll(keys: Iterable<K>): this;
-    removeAll(keys: Iterable<K>): this;
+    deleteAll(keys: Collection.Indexed<K>): this;
+    removeAll(keys: Collection.Indexed<K>): this;
 
     /**
      * Returns a new Map containing no keys or values.
@@ -1227,7 +1227,7 @@
      *
      * Note: `setIn` can be used in `withMutations`.
      */
-    setIn(keyPath: Iterable<any>, value: any): this;
+    setIn(keyPath: Collection.Indexed<any>, value: any): this;
 
     /**
      * Returns a new Map having removed the value at this `keyPath`. If any keys
@@ -1237,8 +1237,8 @@
      *
      * @alias removeIn
      */
-    deleteIn(keyPath: Iterable<any>): this;
-    removeIn(keyPath: Iterable<any>): this;
+    deleteIn(keyPath: Collection.Indexed<any>): this;
+    removeIn(keyPath: Collection.Indexed<any>): this;
 
     /**
      * Returns a new Map having applied the `updater` to the entry found at the
@@ -1291,8 +1291,8 @@
      * If any key in the path exists but does not have a .set() method (such as
      * Map and List), an error will be thrown.
      */
-    updateIn(keyPath: Iterable<any>, notSetValue: any, updater: (value: any) => any): this;
-    updateIn(keyPath: Iterable<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
 
     /**
      * A combination of `updateIn` and `merge`, returning a new Map, but
@@ -1306,7 +1306,7 @@
      *
      * Note: `mergeIn` can be used in `withMutations`.
      */
-    mergeIn(keyPath: Iterable<any>, ...collections: Array<any>): this;
+    mergeIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
 
     /**
      * A combination of `updateIn` and `mergeDeep`, returning a new Map, but
@@ -1320,7 +1320,7 @@
      *
      * Note: `mergeDeepIn` can be used in `withMutations`.
      */
-    mergeDeepIn(keyPath: Iterable<any>, ...collections: Array<any>): this;
+    mergeDeepIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
 
     // Transient changes
 
@@ -1381,7 +1381,7 @@
     /**
      * Returns a new Map with other collections concatenated to this one.
      */
-    concat<KC, VC>(...collections: Array<Iterable<[KC, VC]>>): Map<K | KC, V | VC>;
+    concat<KC, VC>(...collections: Array<Collection.Indexed<[KC, VC]>>): Map<K | KC, V | VC>;
     concat<C>(...collections: Array<{[key: string]: C}>): Map<K | string, V | C>;
 
     /**
@@ -1421,7 +1421,7 @@
      * Similar to `data.map(...).flatten(true)`.
      */
     flatMap<KM, VM>(
-      mapper: (value: V, key: K, iter: this) => Iterable<[KM, VM]>,
+      mapper: (value: V, key: K, iter: this) => Collection.Indexed<[KM, VM]>,
       context?: any
     ): Map<KM, VM>;
 
@@ -1476,8 +1476,8 @@
    *     let newOrderedMap = OrderedMap([["key", "value"]])
    *
    */
-  export function OrderedMap<K, V>(collection: Iterable<[K, V]>): OrderedMap<K, V>;
-  export function OrderedMap<T>(collection: Iterable<Iterable<T>>): OrderedMap<T, T>;
+  export function OrderedMap<K, V>(collection: Collection.Indexed<[K, V]>): OrderedMap<K, V>;
+  export function OrderedMap<T>(collection: Collection.Indexed<Collection.Indexed<T>>): OrderedMap<T, T>;
   export function OrderedMap<V>(obj: {[key: string]: V}): OrderedMap<string, V>;
   export function OrderedMap<K, V>(): OrderedMap<K, V>;
   export function OrderedMap(): OrderedMap<any, any>;
@@ -1494,7 +1494,7 @@
     /**
      * Returns a new OrderedMap with other collections concatenated to this one.
      */
-    concat<KC, VC>(...collections: Array<Iterable<[KC, VC]>>): OrderedMap<K | KC, V | VC>;
+    concat<KC, VC>(...collections: Array<Collection.Indexed<[KC, VC]>>): OrderedMap<K | KC, V | VC>;
     concat<C>(...collections: Array<{[key: string]: C}>): OrderedMap<K | string, V | C>;
 
     /**
@@ -1534,7 +1534,7 @@
      * Similar to `data.map(...).flatten(true)`.
      */
     flatMap<KM, VM>(
-      mapper: (value: V, key: K, iter: this) => Iterable<[KM, VM]>,
+      mapper: (value: V, key: K, iter: this) => Collection.Indexed<[KM, VM]>,
       context?: any
     ): OrderedMap<KM, VM>;
 
@@ -1599,7 +1599,7 @@
      * // Set [ "a", "c"" ]
      * ```
      */
-    function intersect<T>(sets: Iterable<Iterable<T>>): Set<T>;
+    function intersect<T>(sets: Collection.Indexed<Collection.Indexed<T>>): Set<T>;
 
     /**
      * `Set.union()` creates a new immutable Set that is the union of a
@@ -1614,7 +1614,7 @@
      * // Set [ "a", "b", "c", "t"" ]
      * ```
      */
-    function union<T>(sets: Iterable<Iterable<T>>): Set<T>;
+    function union<T>(sets: Collection.Indexed<Collection.Indexed<T>>): Set<T>;
   }
 
   /**
@@ -1623,7 +1623,7 @@
    */
   export function Set(): Set<any>;
   export function Set<T>(): Set<T>;
-  export function Set<T>(collection: Iterable<T>): Set<T>;
+  export function Set<T>(collection: Collection.Indexed<T>): Set<T>;
 
   export interface Set<T> extends Collection.Set<T> {
 
@@ -1717,7 +1717,7 @@
     /**
      * Returns a new Set with other collections concatenated to this one.
      */
-    concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): Set<T | C>;
+    concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): Set<T | C>;
 
     /**
      * Returns a new Set with values passed through a
@@ -1740,7 +1740,7 @@
      * Similar to `set.map(...).flatten(true)`.
      */
     flatMap<M>(
-      mapper: (value: T, key: T, iter: this) => Iterable<M>,
+      mapper: (value: T, key: T, iter: this) => Collection.Indexed<M>,
       context?: any
     ): Set<M>;
 
@@ -1798,7 +1798,7 @@
    */
   export function OrderedSet(): OrderedSet<any>;
   export function OrderedSet<T>(): OrderedSet<T>;
-  export function OrderedSet<T>(collection: Iterable<T>): OrderedSet<T>;
+  export function OrderedSet<T>(collection: Collection.Indexed<T>): OrderedSet<T>;
 
   export interface OrderedSet<T> extends Set<T> {
 
@@ -1812,7 +1812,7 @@
     /**
      * Returns a new OrderedSet with other collections concatenated to this one.
      */
-    concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): OrderedSet<T | C>;
+    concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): OrderedSet<T | C>;
 
     /**
      * Returns a new Set with values passed through a
@@ -1835,7 +1835,7 @@
      * Similar to `set.map(...).flatten(true)`.
      */
     flatMap<M>(
-      mapper: (value: T, key: T, iter: this) => Iterable<M>,
+      mapper: (value: T, key: T, iter: this) => Collection.Indexed<M>,
       context?: any
     ): OrderedSet<M>;
 
@@ -1930,7 +1930,7 @@
    */
   export function Stack(): Stack<any>;
   export function Stack<T>(): Stack<T>;
-  export function Stack<T>(collection: Iterable<T>): Stack<T>;
+  export function Stack<T>(collection: Collection.Indexed<T>): Stack<T>;
 
   export interface Stack<T> extends Collection.Indexed<T> {
 
@@ -1971,7 +1971,7 @@
      *
      * Note: `unshiftAll` can be used in `withMutations`.
      */
-    unshiftAll(iter: Iterable<T>): Stack<T>;
+    unshiftAll(iter: Collection.Indexed<T>): Stack<T>;
 
     /**
      * Returns a new Stack with a size ones less than this Stack, excluding
@@ -1993,7 +1993,7 @@
     /**
      * Alias for `Stack#unshiftAll`.
      */
-    pushAll(iter: Iterable<T>): Stack<T>;
+    pushAll(iter: Collection.Indexed<T>): Stack<T>;
 
     /**
      * Alias for `Stack#shift` and is not equivalent to `List#pop`.
@@ -2031,7 +2031,7 @@
     /**
      * Returns a new Stack with other collections concatenated to this one.
      */
-    concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): Stack<T | C>;
+    concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): Stack<T | C>;
 
     /**
      * Returns a new Stack with values passed through a
@@ -2231,8 +2231,8 @@
     export function getDescriptiveName(record: Instance<any>): string;
 
     export interface Class<T extends Object> {
-      (values?: Partial<T> | Iterable<[string, any]>): Instance<T> & Readonly<T>;
-      new (values?: Partial<T> | Iterable<[string, any]>): Instance<T> & Readonly<T>;
+      (values?: Partial<T> | Collection.Indexed<[string, any]>): Instance<T> & Readonly<T>;
+      new (values?: Partial<T> | Collection.Indexed<[string, any]>): Instance<T> & Readonly<T>;
     }
 
     export interface Instance<T extends Object> {
@@ -2244,8 +2244,8 @@
 
       // Reading deep values
 
-      hasIn(keyPath: Iterable<any>): boolean;
-      getIn(keyPath: Iterable<any>): any;
+      hasIn(keyPath: Collection.Indexed<any>): boolean;
+      getIn(keyPath: Collection.Indexed<any>): any;
 
       // Value equality
 
@@ -2256,16 +2256,16 @@
 
       set<K extends keyof T>(key: K, value: T[K]): this;
       update<K extends keyof T>(key: K, updater: (value: T[K]) => T[K]): this;
-      merge(...collections: Array<Partial<T> | Iterable<[string, any]>>): this;
-      mergeDeep(...collections: Array<Partial<T> | Iterable<[string, any]>>): this;
+      merge(...collections: Array<Partial<T> | Collection.Indexed<[string, any]>>): this;
+      mergeDeep(...collections: Array<Partial<T> | Collection.Indexed<[string, any]>>): this;
 
       mergeWith(
         merger: (oldVal: any, newVal: any, key: keyof T) => any,
-        ...collections: Array<Partial<T> | Iterable<[string, any]>>
+        ...collections: Array<Partial<T> | Collection.Indexed<[string, any]>>
       ): this;
       mergeDeepWith(
         merger: (oldVal: any, newVal: any, key: any) => any,
-        ...collections: Array<Partial<T> | Iterable<[string, any]>>
+        ...collections: Array<Partial<T> | Collection.Indexed<[string, any]>>
       ): this;
 
       /**
@@ -2285,16 +2285,16 @@
 
       // Deep persistent changes
 
-      setIn(keyPath: Iterable<any>, value: any): this;
-      updateIn(keyPath: Iterable<any>, updater: (value: any) => any): this;
-      mergeIn(keyPath: Iterable<any>, ...collections: Array<any>): this;
-      mergeDeepIn(keyPath: Iterable<any>, ...collections: Array<any>): this;
+      setIn(keyPath: Collection.Indexed<any>, value: any): this;
+      updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
+      mergeIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
+      mergeDeepIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
 
       /**
        * @alias removeIn
        */
-      deleteIn(keyPath: Iterable<any>): this;
-      removeIn(keyPath: Iterable<any>): this;
+      deleteIn(keyPath: Collection.Indexed<any>): this;
+      removeIn(keyPath: Collection.Indexed<any>): this;
 
       // Conversion to JavaScript types
 
@@ -2337,7 +2337,7 @@
 
       toSeq(): Seq.Keyed<keyof T, T[keyof T]>;
 
-      [Symbol.iterator](): IterableIterator<[keyof T, T[keyof T]]>;
+      [Symbol.iterator](): Collection<keyof T, T[keyof T]>;
     }
   }
 
@@ -2429,7 +2429,7 @@
      * Always returns a Seq.Keyed, if input is not keyed, expects an
      * collection of [K, V] tuples.
      */
-    export function Keyed<K, V>(collection: Iterable<[K, V]>): Seq.Keyed<K, V>;
+    export function Keyed<K, V>(collection: Collection.Indexed<[K, V]>): Seq.Keyed<K, V>;
     export function Keyed<V>(obj: {[key: string]: V}): Seq.Keyed<string, V>;
     export function Keyed<K, V>(): Seq.Keyed<K, V>;
     export function Keyed(): Seq.Keyed<any, any>;
@@ -2460,7 +2460,7 @@
        * All entries will be present in the resulting Seq, even if they
        * have the same key.
        */
-      concat<KC, VC>(...collections: Array<Iterable<[KC, VC]>>): Seq.Keyed<K | KC, V | VC>;
+      concat<KC, VC>(...collections: Array<Collection.Indexed<[KC, VC]>>): Seq.Keyed<K | KC, V | VC>;
       concat<C>(...collections: Array<{[key: string]: C}>): Seq.Keyed<K | string, V | C>;
 
       /**
@@ -2503,7 +2503,7 @@
        * Similar to `seq.map(...).flatten(true)`.
        */
       flatMap<KM, VM>(
-        mapper: (value: V, key: K, iter: this) => Iterable<[KM, VM]>,
+        mapper: (value: V, key: K, iter: this) => Collection.Indexed<[KM, VM]>,
         context?: any
       ): Seq.Keyed<KM, VM>;
 
@@ -2542,7 +2542,7 @@
      */
     export function Indexed(): Seq.Indexed<any>;
     export function Indexed<T>(): Seq.Indexed<T>;
-    export function Indexed<T>(collection: Iterable<T>): Seq.Indexed<T>;
+    export function Indexed<T>(collection: Collection.Indexed<T>): Seq.Indexed<T>;
 
     export interface Indexed<T> extends Seq<number, T>, Collection.Indexed<T> {
       /**
@@ -2563,7 +2563,7 @@
       /**
        * Returns a new Seq with other collections concatenated to this one.
        */
-      concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): Seq.Indexed<T | C>;
+      concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): Seq.Indexed<T | C>;
 
       /**
        * Returns a new Seq.Indexed with values passed through a
@@ -2589,7 +2589,7 @@
        * Similar to `seq.map(...).flatten(true)`.
        */
       flatMap<M>(
-        mapper: (value: T, key: number, iter: this) => Iterable<M>,
+        mapper: (value: T, key: number, iter: this) => Collection.Indexed<M>,
         context?: any
       ): Seq.Indexed<M>;
 
@@ -2668,7 +2668,7 @@
      */
     export function Set(): Seq.Set<any>;
     export function Set<T>(): Seq.Set<T>;
-    export function Set<T>(collection: Iterable<T>): Seq.Set<T>;
+    export function Set<T>(collection: Collection.Indexed<T>): Seq.Set<T>;
 
     export interface Set<T> extends Seq<T, T>, Collection.Set<T> {
       /**
@@ -2692,7 +2692,7 @@
        * All entries will be present in the resulting Seq, even if they
        * are duplicates.
        */
-      concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): Seq.Set<T | C>;
+      concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): Seq.Set<T | C>;
 
       /**
        * Returns a new Seq.Set with values passed through a
@@ -2717,7 +2717,7 @@
        * Similar to `seq.map(...).flatten(true)`.
        */
       flatMap<M>(
-        mapper: (value: T, key: T, iter: this) => Iterable<M>,
+        mapper: (value: T, key: T, iter: this) => Collection.Indexed<M>,
         context?: any
       ): Seq.Set<M>;
 
@@ -2757,7 +2757,7 @@
   export function Seq<K, V>(collection: Collection.Keyed<K, V>): Seq.Keyed<K, V>;
   export function Seq<T>(collection: Collection.Indexed<T>): Seq.Indexed<T>;
   export function Seq<T>(collection: Collection.Set<T>): Seq.Set<T>;
-  export function Seq<T>(collection: Iterable<T>): Seq.Indexed<T>;
+  export function Seq<T>(collection: Collection.Indexed<T>): Seq.Indexed<T>;
   export function Seq<V>(obj: {[key: string]: V}): Seq.Keyed<string, V>;
   export function Seq(): Seq<any, any>;
 
@@ -2826,7 +2826,7 @@
      * Similar to `seq.map(...).flatten(true)`.
      */
     flatMap<M>(
-      mapper: (value: V, key: K, iter: this) => Iterable<M>,
+      mapper: (value: V, key: K, iter: this) => Collection.Indexed<M>,
       context?: any
     ): Seq<K, M>;
 
@@ -2899,7 +2899,7 @@
      * Similar to `Collection()`, however it expects collection-likes of [K, V]
      * tuples if not constructed from a Collection.Keyed or JS Object.
      */
-    export function Keyed<K, V>(collection: Iterable<[K, V]>): Collection.Keyed<K, V>;
+    export function Keyed<K, V>(collection: Collection.Indexed<[K, V]>): Collection.Keyed<K, V>;
     export function Keyed<V>(obj: {[key: string]: V}): Collection.Keyed<string, V>;
 
     export interface Keyed<K, V> extends Collection<K, V> {
@@ -2941,7 +2941,7 @@
       /**
        * Returns a new Collection with other collections concatenated to this one.
        */
-      concat<KC, VC>(...collections: Array<Iterable<[KC, VC]>>): Collection.Keyed<K | KC, V | VC>;
+      concat<KC, VC>(...collections: Array<Collection.Indexed<[KC, VC]>>): Collection.Keyed<K | KC, V | VC>;
       concat<C>(...collections: Array<{[key: string]: C}>): Collection.Keyed<K | string, V | C>;
 
       /**
@@ -3005,7 +3005,7 @@
        * Similar to `collection.map(...).flatten(true)`.
        */
       flatMap<KM, VM>(
-        mapper: (value: V, key: K, iter: this) => Iterable<[KM, VM]>,
+        mapper: (value: V, key: K, iter: this) => Collection.Indexed<[KM, VM]>,
         context?: any
       ): Collection.Keyed<KM, VM>;
 
@@ -3025,7 +3025,7 @@
         context?: any
       ): this;
 
-      [Symbol.iterator](): IterableIterator<[K, V]>;
+      [Symbol.iterator](): Collection<K, V>;
     }
 
 
@@ -3049,7 +3049,7 @@
     /**
      * Creates a new Collection.Indexed.
      */
-    export function Indexed<T>(collection: Iterable<T>): Collection.Indexed<T>;
+    export function Indexed<T>(collection: Collection.Indexed<T>): Collection.Indexed<T>;
 
     export interface Indexed<T> extends Collection<number, T> {
       /**
@@ -3220,7 +3220,7 @@
       /**
        * Returns a new Collection with other collections concatenated to this one.
        */
-      concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): Collection.Indexed<T | C>;
+      concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): Collection.Indexed<T | C>;
 
       /**
        * Returns a new Collection.Indexed with values passed through a
@@ -3246,7 +3246,7 @@
        * Similar to `collection.map(...).flatten(true)`.
        */
       flatMap<M>(
-        mapper: (value: T, key: number, iter: this) => Iterable<M>,
+        mapper: (value: T, key: number, iter: this) => Collection.Indexed<M>,
         context?: any
       ): Collection.Indexed<M>;
 
@@ -3266,7 +3266,7 @@
         context?: any
       ): this;
 
-      [Symbol.iterator](): IterableIterator<T>;
+      [Symbol.iterator](): Collection.Indexed<T>;
     }
 
 
@@ -3292,7 +3292,7 @@
     /**
      * Similar to `Collection()`, but always returns a Collection.Set.
      */
-    export function Set<T>(collection: Iterable<T>): Collection.Set<T>;
+    export function Set<T>(collection: Collection.Indexed<T>): Collection.Set<T>;
 
     export interface Set<T> extends Collection<T, T> {
       /**
@@ -3316,7 +3316,7 @@
       /**
        * Returns a new Collection with other collections concatenated to this one.
        */
-      concat<C>(...valuesOrCollections: Array<Iterable<C> | C>): Collection.Set<T | C>;
+      concat<C>(...valuesOrCollections: Array<Collection.Indexed<C> | C>): Collection.Set<T | C>;
 
       /**
        * Returns a new Collection.Set with values passed through a
@@ -3341,7 +3341,7 @@
        * Similar to `collection.map(...).flatten(true)`.
        */
       flatMap<M>(
-        mapper: (value: T, key: T, iter: this) => Iterable<M>,
+        mapper: (value: T, key: T, iter: this) => Collection.Indexed<M>,
         context?: any
       ): Collection.Set<M>;
 
@@ -3361,7 +3361,7 @@
         context?: any
       ): this;
 
-      [Symbol.iterator](): IterableIterator<T>;
+      [Symbol.iterator](): Collection<T, T>;
     }
 
   }
@@ -3382,7 +3382,7 @@
    * `Seq.of`.
    */
   export function Collection<I extends Collection<any, any>>(collection: I): I;
-  export function Collection<T>(collection: Iterable<T>): Collection.Indexed<T>;
+  export function Collection<T>(collection: Collection.Indexed<T>): Collection.Indexed<T>;
   export function Collection<V>(obj: {[key: string]: V}): Collection.Keyed<string, V>;
 
   export interface Collection<K, V> extends ValueObject {
@@ -3466,13 +3466,13 @@
      * Returns the value found by following a path of keys or indices through
      * nested Collections.
      */
-    getIn(searchKeyPath: Iterable<any>, notSetValue?: any): any;
+    getIn(searchKeyPath: Collection.Indexed<any>, notSetValue?: any): any;
 
     /**
      * True if the result of following a path of keys or indices through nested
      * Collections results in a set value.
      */
-    hasIn(searchKeyPath: Iterable<any>): boolean;
+    hasIn(searchKeyPath: Collection.Indexed<any>): boolean;
 
     // Persistent changes
 
@@ -3644,7 +3644,7 @@
      * Immutable.js sequence algorithms. Use `keySeq` instead, if this is
      * what you want.
      */
-    keys(): IterableIterator<K>;
+    keys(): Collection.Indexed<K>;
 
     /**
      * An iterator of this `Collection`'s values.
@@ -3653,7 +3653,7 @@
      * Immutable.js sequence algorithms. Use `valueSeq` instead, if this is
      * what you want.
      */
-    values(): IterableIterator<V>;
+    values(): Collection.Indexed<V>;
 
     /**
      * An iterator of this `Collection`'s entries as `[ key, value ]` tuples.
@@ -3662,7 +3662,7 @@
      * Immutable.js sequence algorithms. Use `entrySeq` instead, if this is
      * what you want.
      */
-    entries(): IterableIterator<[K, V]>;
+    entries(): Collection.Indexed<[K, V]>;
 
 
     // Collections (Seq)
@@ -3993,7 +3993,7 @@
      * Similar to `collection.map(...).flatten(true)`.
      */
     flatMap<M>(
-      mapper: (value: V, key: K, iter: this) => Iterable<M>,
+      mapper: (value: V, key: K, iter: this) => Collection.Indexed<M>,
       context?: any
     ): Collection<K, M>;
 
@@ -4225,11 +4225,10 @@
     /**
      * True if `iter` includes every value in this Collection.
      */
-    isSubset(iter: Iterable<V>): boolean;
+    isSubset(iter: Collection.Indexed<V>): boolean;
 
     /**
      * True if this Collection includes every value in `iter`.
      */
-    isSuperset(iter: Iterable<V>): boolean;
+    isSuperset(iter: Collection.Indexed<V>): boolean;
   }
-
