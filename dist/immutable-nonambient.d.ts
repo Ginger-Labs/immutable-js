@@ -1230,6 +1230,7 @@
      *
      * Note: `setIn` can be used in `withMutations`.
      */
+    setIn(keyPath: Array<any>, value: any): this;
     setIn(keyPath: Collection.Indexed<any>, value: any): this;
 
     /**
@@ -1240,7 +1241,9 @@
      *
      * @alias removeIn
      */
+    deleteIn(keyPath: Array<any>): this;
     deleteIn(keyPath: Collection.Indexed<any>): this;
+    removeIn(keyPath: Array<any>): this;
     removeIn(keyPath: Collection.Indexed<any>): this;
 
     /**
@@ -2549,6 +2552,7 @@
      */
     export function Indexed(): Seq.Indexed<any>;
     export function Indexed<T>(): Seq.Indexed<T>;
+    export function Indexed<T>(array: Array<any>): Seq.Indexed<T>;
     export function Indexed<T>(collection: Collection.Indexed<T>): Seq.Indexed<T>;
 
     export interface Indexed<T> extends Seq<number, T>, Collection.Indexed<T> {
@@ -2675,6 +2679,7 @@
      */
     export function Set(): Seq.Set<any>;
     export function Set<T>(): Seq.Set<T>;
+    export function Set<T>(array: Array<any>): Seq.Set<T>;
     export function Set<T>(collection: Collection.Indexed<T>): Seq.Set<T>;
 
     export interface Set<T> extends Seq<T, T>, Collection.Set<T> {
@@ -2762,6 +2767,7 @@
    */
   export function Seq<S extends Seq<any, any>>(seq: S): S;
   export function Seq<K, V>(collection: Collection.Keyed<K, V>): Seq.Keyed<K, V>;
+  export function Seq<T>(array: Array<T>): Seq.Indexed<T>;
   export function Seq<T>(collection: Collection.Indexed<T>): Seq.Indexed<T>;
   export function Seq<T>(collection: Collection.Set<T>): Seq.Set<T>;
   export function Seq<T>(collection: Collection.Indexed<T>): Seq.Indexed<T>;
@@ -3295,6 +3301,7 @@
     /**
      * Similar to `Collection()`, but always returns a Collection.Set.
      */
+    export function Set<T>(array: Array<T>): Collection.Set<T>;
     export function Set<T>(collection: Collection.Indexed<T>): Collection.Set<T>;
 
     export interface Set<T> extends Collection<T, T> {
