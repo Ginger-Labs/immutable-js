@@ -696,8 +696,8 @@
      *
      * @see `Map#updateIn`
      */
-    updateIn(keyPath: Collection.Indexed<any>, notSetValue: any, updater: (value: any) => any): this;
-    updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any> | Array<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any> | Array<any>, updater: (value: any) => any): this;
 
     /**
      * Note: `mergeIn` can be used in `withMutations`.
@@ -1291,8 +1291,8 @@
      * If any key in the path exists but does not have a .set() method (such as
      * Map and List), an error will be thrown.
      */
-    updateIn(keyPath: Collection.Indexed<any>, notSetValue: any, updater: (value: any) => any): this;
-    updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any> | Array<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any> | Array<any>, updater: (value: any) => any): this;
 
     /**
      * A combination of `updateIn` and `merge`, returning a new Map, but
@@ -2231,8 +2231,8 @@
     export function getDescriptiveName(record: Instance<any>): string;
 
     export interface Class<T extends Object> {
-      (values?: Partial<T> | Collection.Indexed<[string, any]>): Instance<T> & Readonly<T>;
-      new (values?: Partial<T> | Collection.Indexed<[string, any]>): Instance<T> & Readonly<T>;
+      (values?: Partial<T> | Collection.Indexed<[string, any]>): Readonly<Instance<T>>;
+      new (values?: Partial<T> | Collection.Indexed<[string, any]>): Readonly<Instance<T>>;
     }
 
     export interface Instance<T extends Object> {
@@ -2286,7 +2286,7 @@
       // Deep persistent changes
 
       setIn(keyPath: Collection.Indexed<any>, value: any): this;
-      updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
+      updateIn(keyPath: Collection.Indexed<any> | Array<any>, updater: (value: any) => any): this;
       mergeIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
       mergeDeepIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
 
@@ -2336,8 +2336,6 @@
       // Sequence algorithms
 
       toSeq(): Seq.Keyed<keyof T, T[keyof T]>;
-
-      [Symbol.iterator](): Collection<keyof T, T[keyof T]>;
     }
   }
 
@@ -3024,8 +3022,6 @@
         predicate: (value: V, key: K, iter: this) => any,
         context?: any
       ): this;
-
-      [Symbol.iterator](): Collection<K, V>;
     }
 
 
@@ -3265,8 +3261,6 @@
         predicate: (value: T, index: number, iter: this) => any,
         context?: any
       ): this;
-
-      [Symbol.iterator](): Collection.Indexed<T>;
     }
 
 
@@ -3360,8 +3354,6 @@
         predicate: (value: T, key: T, iter: this) => any,
         context?: any
       ): this;
-
-      [Symbol.iterator](): Collection<T, T>;
     }
 
   }
