@@ -671,6 +671,7 @@
      *
      * Note: `setIn` can be used in `withMutations`.
      */
+    setIn(keyPath: Array<any>, value: any): this;
     setIn(keyPath: Collection.Indexed<any>, value: any): this;
 
     /**
@@ -696,8 +697,10 @@
      *
      * @see `Map#updateIn`
      */
-    updateIn(keyPath: Collection.Indexed<any> | Array<any>, notSetValue: any, updater: (value: any) => any): this;
-    updateIn(keyPath: Collection.Indexed<any> | Array<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Array<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Array<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
 
     /**
      * Note: `mergeIn` can be used in `withMutations`.
@@ -1291,8 +1294,10 @@
      * If any key in the path exists but does not have a .set() method (such as
      * Map and List), an error will be thrown.
      */
-    updateIn(keyPath: Collection.Indexed<any> | Array<any>, notSetValue: any, updater: (value: any) => any): this;
-    updateIn(keyPath: Collection.Indexed<any> | Array<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Array<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Array<any>, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, notSetValue: any, updater: (value: any) => any): this;
+    updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
 
     /**
      * A combination of `updateIn` and `merge`, returning a new Map, but
@@ -2244,7 +2249,9 @@
 
       // Reading deep values
 
+      hasIn(keyPath: Array<any>): boolean;
       hasIn(keyPath: Collection.Indexed<any>): boolean;
+      getIn(keyPath: Array<any>): any;
       getIn(keyPath: Collection.Indexed<any>): any;
 
       // Value equality
@@ -2285,8 +2292,10 @@
 
       // Deep persistent changes
 
+      setIn(keyPath: Array<any>, value: any): this;
       setIn(keyPath: Collection.Indexed<any>, value: any): this;
-      updateIn(keyPath: Collection.Indexed<any> | Array<any>, updater: (value: any) => any): this;
+      updateIn(keyPath: Array<any>, updater: (value: any) => any): this;
+      updateIn(keyPath: Collection.Indexed<any>, updater: (value: any) => any): this;
       mergeIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
       mergeDeepIn(keyPath: Collection.Indexed<any>, ...collections: Array<any>): this;
 
@@ -3458,6 +3467,7 @@
      * Returns the value found by following a path of keys or indices through
      * nested Collections.
      */
+    getIn(searchKeyPath: Array<any>, notSetValue?: any): any;
     getIn(searchKeyPath: Collection.Indexed<any>, notSetValue?: any): any;
 
     /**
