@@ -3374,6 +3374,18 @@
 
   }
 
+/**
+   * ES6 Iterator.
+   *
+   * This is not part of the Immutable library, but a common interface used by
+   * many types in ES6 JavaScript.
+   *
+   * @ignore
+   */
+  export interface Iterator<T> {
+    next(): { value: T; done: boolean; }
+  }
+
   /**
    * Creates a Collection.
    *
@@ -3653,7 +3665,7 @@
      * Immutable.js sequence algorithms. Use `keySeq` instead, if this is
      * what you want.
      */
-    keys(): Collection.Indexed<K>;
+    keys(): Iterator<K>;
 
     /**
      * An iterator of this `Collection`'s values.
@@ -3662,7 +3674,7 @@
      * Immutable.js sequence algorithms. Use `valueSeq` instead, if this is
      * what you want.
      */
-    values(): Collection.Indexed<V>;
+    values(): Iterator<V>;
 
     /**
      * An iterator of this `Collection`'s entries as `[ key, value ]` tuples.
@@ -3671,7 +3683,7 @@
      * Immutable.js sequence algorithms. Use `entrySeq` instead, if this is
      * what you want.
      */
-    entries(): Collection.Indexed<[K, V]>;
+    entries(): Iterator<[K, V]>;
 
 
     // Collections (Seq)
